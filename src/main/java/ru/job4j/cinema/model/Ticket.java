@@ -4,9 +4,10 @@ import java.util.Map;
 
 public class Ticket {
 
-    private static final Map<String, String> COLUM_MAPPING = Map.of(
+    public static final Map<String, String> COLUM_MAPPING = Map.of(
             "id", "id",
             "session_id", "sessionId",
+            "row_number", "rowNumber",
             "place_number", "placeNumber",
             "user_id", "userId"
     );
@@ -15,12 +16,15 @@ public class Ticket {
 
     private int sessionId;
 
+    private int rowNumber;
+
     private int placeNumber;
 
     private int userId;
 
-    public Ticket(int sessionId, int placeNumber, int userId) {
+    public Ticket(int sessionId, int rowNumber, int placeNumber, int userId) {
         this.sessionId = sessionId;
+        this.rowNumber = rowNumber;
         this.placeNumber = placeNumber;
         this.userId = userId;
     }
@@ -43,6 +47,14 @@ public class Ticket {
 
     public int getPlaceNumber() {
         return placeNumber;
+    }
+
+    public int getRowNumber() {
+        return rowNumber;
+    }
+
+    public void setRowNumber(int rowNumber) {
+        this.rowNumber = rowNumber;
     }
 
     public void setPlaceNumber(int placeNumber) {

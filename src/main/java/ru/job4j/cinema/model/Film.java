@@ -4,11 +4,11 @@ import java.util.Map;
 
 public class Film {
 
-    private static final Map<String, String> COLUM_MAPPING = Map.of(
+    public static final Map<String, String> COLUM_MAPPING = Map.of(
             "id", "id",
             "name", "name",
             "description", "description",
-            "\"year\"", "year",
+            "year", "year",
             "genre_id", "genreId",
             "minimal_age", "minimalAge",
             "duration_in_minutes", "durationInMinutes",

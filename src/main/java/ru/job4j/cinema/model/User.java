@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class User {
 
-    private static final Map<String, String> COLUM_MAPPING = Map.of(
+    public static final Map<String, String> COLUM_MAPPING = Map.of(
             "id", "id",
             "full_name", "fullName",
             "email", "email",
@@ -19,6 +19,9 @@ public class User {
     private String email;
 
     private String password;
+
+    public User() {
+    }
 
     public User(String fullName, String email, String password) {
         this.fullName = fullName;

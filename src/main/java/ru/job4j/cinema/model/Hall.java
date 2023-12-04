@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class Hall {
 
-    private static final Map<String, String> COLUM_MAPPING = Map.of(
+    public static final Map<String, String> COLUM_MAPPING = Map.of(
             "id", "id",
             "name", "name",
             "row_count", "rowCount",
