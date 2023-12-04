@@ -5,4 +5,3 @@ create table files
     path varchar not null unique
 );
 
- select * from files;
