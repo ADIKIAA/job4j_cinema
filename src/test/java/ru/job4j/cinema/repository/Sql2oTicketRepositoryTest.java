@@ -45,27 +45,18 @@ class Sql2oTicketRepositoryTest {
     @Test
     public void saveTicketThenFindThemById() {
         Ticket ticket = new Ticket(1, 1, 1, 1);
-        var savedTicket = sql2oTicketRepository.save(ticket);
+        var savedTicket = sql2oTicketRepository.save(ticket).get();
         assertThat(savedTicket).usingRecursiveComparison().isEqualTo(ticket);
     }
 
     @Test
-    public void saveSomeTicketThenDeleteOneAndCheckExist() {
-        Ticket ticket1 = new Ticket(1, 1, 1, 1);
-        Ticket ticket2 = new Ticket(2, 2, 2, 2);
-        Ticket ticket3 = new Ticket(3, 3, 3, 3);
-        sql2oTicketRepository.save(ticket1);
-        sql2oTicketRepository.save(ticket2);
-        sql2oTicketRepository.save(ticket3);
-        int id = ticket2.getId();
-        int sessionId = ticket2.getSessionId();
-        int rowNumber = ticket2.getRowNumber();
-        int placeNumber = ticket2.getPlaceNumber();
+    public void saveTicketThenTrySaveAgain() {
+        Ticket ticket = new Ticket(1, 1, 1, 1);
+        sql2oTicketRepository.save(ticket);
 
-        sql2oTicketRepository.deleteById(id);
-        var rsl = sql2oTicketRepository.exist(sessionId, rowNumber, placeNumber);
+        var rsl = sql2oTicketRepository.save(ticket);
 
-        assertThat(rsl).isFalse();
+        assertThat(rsl).isEmpty();
     }
 
     @Test

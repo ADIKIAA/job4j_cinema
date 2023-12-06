@@ -17,7 +17,7 @@ public class Sql2oTicketRepository implements TicketRepository {
     }
 
     @Override
-    public Ticket save(Ticket ticket) {
+    public Optional<Ticket> save(Ticket ticket) {
         try (var connection = sql2o.open()) {
             String sql = """
                     INSERT INTO tickets (session_id, row_number, place_number, user_id)
@@ -30,24 +30,10 @@ public class Sql2oTicketRepository implements TicketRepository {
                     .addParameter("userId", ticket.getUserId());
             int generationKey = query.setColumnMappings(Ticket.COLUM_MAPPING).executeUpdate().getKey(Integer.class);
             ticket.setId(generationKey);
-            return ticket;
-        }
-    }
-
-    @Override
-    public boolean exist(int sessionId, int rowNumber, int placeNumber) {
-        try (var connection = sql2o.open();) {
-            String sql = """
-                    SELECT FROM tickets 
-                    WHERE session_id = :sessionId 
-                    AND row_number = :rowNumber
-                    AND place_number = :placeNumber
-                    """;
-            var query = connection.createQuery(sql)
-                    .addParameter("sessionId", sessionId)
-                    .addParameter("rowNumber", rowNumber)
-                    .addParameter("placeNumber", placeNumber);
-            return query.setColumnMappings(Ticket.COLUM_MAPPING).executeAndFetchFirst(Ticket.class) != null;
+            return Optional.of(ticket);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
         }
     }
 

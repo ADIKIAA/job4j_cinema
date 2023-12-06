@@ -2,7 +2,6 @@ package ru.job4j.cinema.repository;
 
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
-import ru.job4j.cinema.dto.HallDto;
 import ru.job4j.cinema.model.Hall;
 
 import java.util.Collection;
@@ -17,20 +16,20 @@ public class Sql2oHallRepository implements HallRepository {
     }
 
     @Override
-    public Collection<HallDto> findAll() {
+    public Collection<Hall> findAll() {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery("SELECT * FROM halls");
-            return query.setColumnMappings(Hall.COLUM_MAPPING).executeAndFetch(HallDto.class);
+            return query.setColumnMappings(Hall.COLUM_MAPPING).executeAndFetch(Hall.class);
         }
     }
 
     @Override
-    public HallDto findById(int id) {
+    public Hall findById(int id) {
         try (var connection = sql2o.open()) {
             var query = connection.createQuery(
                     "SELECT * FROM halls WHERE id = :id"
             ).addParameter("id", id);
-            return query.setColumnMappings(Hall.COLUM_MAPPING).executeAndFetchFirst(HallDto.class);
+            return query.setColumnMappings(Hall.COLUM_MAPPING).executeAndFetchFirst(Hall.class);
         }
     }
 

@@ -5,14 +5,17 @@ import org.junit.jupiter.api.Test;
 import org.springframework.ui.ConcurrentModel;
 import ru.job4j.cinema.dto.FilmSessionDto;
 import ru.job4j.cinema.dto.HallDto;
+import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.FilmSessionService;
 import ru.job4j.cinema.service.HallService;
 import ru.job4j.cinema.service.TicketService;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -40,7 +43,7 @@ class TicketControllerTest {
         var filmSessionDto = Optional.of(new FilmSessionDto(1, 1, "filmName", 1,
                 "hallName", LocalDateTime.now(), LocalDateTime.now(), 1));
         when(filmSessionService.findById(anyInt())).thenReturn(filmSessionDto);
-        var hallDto = new HallDto(1, "hallName", 5, 5, "desc");
+        var hallDto = new HallDto(1, "hallName", "description", List.of(1, 2, 3), List.of(1, 2, 3, 4));
         when(hallService.findById(anyInt())).thenReturn(hallDto);
 
         int id = 1;
@@ -60,7 +63,7 @@ class TicketControllerTest {
         int row = 1;
         int place = 1;
         int userId = 1;
-        when(ticketService.exist(anyInt(), anyInt(), anyInt())).thenReturn(false);
+        when(ticketService.save(any())).thenReturn(Optional.of(new Ticket(sessionId, row, place, userId)));
 
         var model = new ConcurrentModel();
         var view = ticketController.save(sessionId, row, place, userId, model);
@@ -76,7 +79,7 @@ class TicketControllerTest {
         int row = 1;
         int place = 1;
         int userId = 1;
-        when(ticketService.exist(anyInt(), anyInt(), anyInt())).thenReturn(true);
+        when(ticketService.save(any())).thenReturn(Optional.empty());
 
         var model = new ConcurrentModel();
         var view = ticketController.save(sessionId, row, place, userId, model);
@@ -85,7 +88,7 @@ class TicketControllerTest {
         assertThat(view).isEqualTo("errors/404");
         assertThat(message).isEqualTo("""
                     Не удалось приобрести билет на заданное место (Ряд 1 Место 1).
-                    Вероятно оно уже занято. 
+                    Вероятно оно уже занято.
                     Перейдите на страницу бронирования билетов и попробуйте снова.
                     """);
     }

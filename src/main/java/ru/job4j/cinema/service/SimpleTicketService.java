@@ -36,13 +36,8 @@ public class SimpleTicketService implements TicketService {
     }
 
     @Override
-    public Ticket save(Ticket ticket) {
+    public Optional<Ticket> save(Ticket ticket) {
         return ticketRepository.save(ticket);
-    }
-
-    @Override
-    public boolean exist(int sessionId, int rowNumber, int placeNumber) {
-        return ticketRepository.exist(sessionId, rowNumber, placeNumber);
     }
 
     @Override
@@ -71,9 +66,7 @@ public class SimpleTicketService implements TicketService {
 
     @Override
     public Optional<TicketDto> findById(int id) {
-        Ticket t = ticketRepository.findById(id).get();
-
-        return Optional.ofNullable(convertTicketToTicketDto(t));
+        return ticketRepository.findById(id).map(this::convertTicketToTicketDto);
     }
 
     @Override

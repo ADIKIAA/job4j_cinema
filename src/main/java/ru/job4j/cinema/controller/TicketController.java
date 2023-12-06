@@ -3,7 +3,6 @@ package ru.job4j.cinema.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.job4j.cinema.dto.TicketDto;
 import ru.job4j.cinema.model.Ticket;
 import ru.job4j.cinema.service.FilmSessionService;
 import ru.job4j.cinema.service.HallService;
@@ -28,9 +27,13 @@ public class TicketController {
 
     @GetMapping("/create/{id}")
     public String getTicketBuyPage(Model model, @PathVariable int id) {
-        var fs = filmSessionService.findById(id).get();
-        model.addAttribute("sess", fs);
-        model.addAttribute("hall", hallService.findById(fs.getHallId()));
+        var session = filmSessionService.findById(id);
+        if (session.isEmpty()) {
+            model.addAttribute("message", "Сеанс не найден");
+            return "errors/404";
+        }
+        model.addAttribute("sess", session.get());
+        model.addAttribute("hall", hallService.findById(session.get().getHallId()));
         return "tickets/create";
     }
 
@@ -41,10 +44,11 @@ public class TicketController {
                        @ModelAttribute("userId") int userId,
                        Model model) {
         Ticket ticket = new Ticket(sessionId, row, place, userId);
-        if (ticketService.exist(sessionId, row, place)) {
+        var savedTicket = ticketService.save(ticket);
+        if (savedTicket.isEmpty()) {
             model.addAttribute("message", String.format("""
                     Не удалось приобрести билет на заданное место (Ряд %s Место %s).
-                    Вероятно оно уже занято. 
+                    Вероятно оно уже занято.
                     Перейдите на страницу бронирования билетов и попробуйте снова.
                     """, row, place)
             );
@@ -53,7 +57,6 @@ public class TicketController {
         model.addAttribute("message",
                 String.format("Вы успешно приобрели билет на такое место (Ряд %s Место %s).", row, place)
         );
-        ticketService.save(ticket);
         return "/success/success_page";
     }
 

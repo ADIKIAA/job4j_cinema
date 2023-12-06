@@ -29,7 +29,10 @@ public class Sql2oUserRepository implements UserRepository {
                     .addParameter("password", user.getPassword());
             int generationId = query.setColumnMappings(User.COLUM_MAPPING).executeUpdate().getKey(Integer.class);
             user.setId(generationId);
-            return Optional.ofNullable(user);
+            return Optional.of(user);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Optional.empty();
         }
     }
 

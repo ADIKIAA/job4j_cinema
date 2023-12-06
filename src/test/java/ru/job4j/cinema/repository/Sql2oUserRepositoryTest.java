@@ -1,7 +1,6 @@
 package ru.job4j.cinema.repository;
 
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import ru.job4j.cinema.configuration.DatasourceConfiguration;
@@ -98,9 +97,10 @@ class Sql2oUserRepositoryTest {
         User user1 = new User("name1", "email", "password1");
         User user2 = new User("name2", "email", "password2");
         sql2oUserRepository.save(user1);
-        Assertions.assertThrows(Exception.class, () -> {
-            sql2oUserRepository.save(user2);
-        });
+
+        var rsl = sql2oUserRepository.save(user2);
+
+        assertThat(rsl).isEmpty();
     }
 
 }

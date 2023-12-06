@@ -9,28 +9,18 @@ public class HallDto {
 
     private String name;
 
-    private int rowCount;
-
-    private int placeCount;
-
     private String description;
 
     private List<Integer> rowList = new ArrayList<>();
 
     private List<Integer> placeList = new ArrayList<>();
 
-    public HallDto(int id, String name, int rowCount, int placeCount, String description) {
+    public HallDto(int id, String name, String description, List<Integer> rowList, List<Integer> placeList) {
         this.id = id;
         this.name = name;
-        this.rowCount = rowCount;
-        this.placeCount = placeCount;
         this.description = description;
-        for (int i = 1; i <= rowCount; i++) {
-            this.rowList.add(i);
-        }
-        for (int i = 1; i <= placeCount; i++) {
-            this.placeList.add(i);
-        }
+        this.rowList = rowList;
+        this.placeList = placeList;
     }
 
     public int getId() {
@@ -49,30 +39,6 @@ public class HallDto {
         this.name = name;
     }
 
-    public int getRowCount() {
-        return rowCount;
-    }
-
-    public void setRowCount(int rowCount) {
-        rowList = new ArrayList<>();
-        for (int i = 1; i <= rowCount; i++) {
-            this.rowList.add(i);
-        }
-        this.rowCount = rowCount;
-    }
-
-    public int getPlaceCount() {
-        return placeCount;
-    }
-
-    public void setPlaceCount(int placeCount) {
-        placeList = new ArrayList<>();
-        for (int i = 1; i <= placeCount; i++) {
-            this.placeList.add(i);
-        }
-        this.placeCount = placeCount;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -85,8 +51,16 @@ public class HallDto {
         return rowList;
     }
 
+    public void setRowList(List<Integer> rowList) {
+        this.rowList = rowList;
+    }
+
     public List<Integer> getPlaceList() {
         return placeList;
+    }
+
+    public void setPlaceList(List<Integer> placeList) {
+        this.placeList = placeList;
     }
 
 }

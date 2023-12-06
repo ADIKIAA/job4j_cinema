@@ -8,9 +8,7 @@ import java.util.Optional;
 
 public interface TicketService {
 
-    Ticket save(Ticket ticket);
-
-    boolean exist(int sessionId, int rowNumber, int placeNumber);
+    Optional<Ticket> save(Ticket ticket);
 
     Collection<TicketDto> findAll();
 
