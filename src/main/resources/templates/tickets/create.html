@@ -19,72 +19,87 @@
 </head>
 <body>
     <header th:insert="blocks/header :: header"></header>
-    <div class="container" >
-        <form method="post" th:action="@{/tickets/create}" >
-            <div class="mb-3">
-                <h6>Session ID</h6>
-                <p name="sessionId" id="sessionId"  th:value="sessionId" th:text="${sess.getId}"></p>
-                <input type="hidden" name="sessionId" th:value="${sess.getId}">
-                <p>------------------------</p>
+    <div class="container pt-3">
+        <div class="row">
+            <div class="row" style="width: 50%">
+                <div class="card" style="width: 50%">
+                    <div class="card-header">
+                        <div class="col-9">
+                            <h5>Покупка билета</h5>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="box" id="box">
+                            <form method="post" th:action="@{/tickets/create}" >
+                                <div class="mb-3">
+                                    <h6>Session ID</h6>
+                                    <p name="sessionId" id="sessionId"  th:value="sessionId" th:text="${sess.getId}"></p>
+                                    <input type="hidden" name="sessionId" th:value="${sess.getId}">
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Название фильма</h6>
+                                    <p th:text="${sess.getFilmName}"></p>
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Начало сеанса</h6>
+                                    <p th:text="${sess.getStartTime}"></p>
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Конец сеанса</h6>
+                                    <p th:text="${sess.getEndTime}"></p>
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Цена</h6>
+                                    <p th:text="${sess.getPrice}"></p>
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>User ID</h6>
+                                    <p name="userId" id="userId"  th:text="${user.getId}"></p>
+                                    <input type="hidden" name="userId" th:value="${user.getId}">
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Имя пользователя</h6>
+                                    <p th:text="${user.fullName}"></p>
+                                    <p>------------------------</p>
+                                </div>
+                                <div class="mb-3">
+                                    <h6>Email</h6>
+                                    <p th:text="${user.email}"></p>
+                                </div>
+                                <p>------------------------</p>
+                                <div class="row" >
+                                    <label for="rowNumber"><b>Ряд</b></label>
+                                    <select class="form-control" id="rowNumber" name="rowNumber" style="max-width:20%;">
+                                        <option th:each="row : ${hall.rowList}" th:value="${row}" th:text="${row}"></option>
+                                    </select>
+                                </div>
+                                <p>------------------------</p>
+                                <div class="row" >
+                                    <label for="placeNumber"><b>Место</b></label>
+                                    <select class="form-control" id="placeNumber" name="placeNumber" style="max-width:20%; ">
+                                        <option th:each="place : ${hall.placeList}" th:value="${place}" th:text="${place}"></option>
+                                    </select>
+                                </div>
+                                <p>------------------------</p>
+                                <div class="row" >
+                                    <div class="col-6"><button class="btn btn-primary w-100" type="submit">Купить</button></div>
+                                </div>
+                                <br>
+                                <div class="row" >
+                                    <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/sessions}">Отмена</a></div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <h6>Название фильма</h6>
-                <p th:text="${sess.getFilmName}"></p>
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>Начало сеанса</h6>
-                <p th:text="${sess.getStartTime}"></p>
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>Конец сеанса</h6>
-                <p th:text="${sess.getEndTime}"></p>
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>Цена</h6>
-                <p th:text="${sess.getPrice}"></p>
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>User ID</h6>
-                <p name="userId" id="userId"  th:text="${user.getId}"></p>
-                <input type="hidden" name="userId" th:value="${user.getId}">
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>Имя пользователя</h6>
-                <p th:text="${user.fullName}"></p>
-                <p>------------------------</p>
-            </div>
-            <div class="mb-3">
-                <h6>Email</h6>
-                <p th:text="${user.email}"></p>
-            </div>
-            <p>------------------------</p>
-            <div class="mb-3 row" >
-                <label for="rowNumber"><b>Ряд</b></label>
-                <select class="form-control" id="rowNumber" name="rowNumber" style="max-width:10%;">
-                    <option th:each="row : ${hall.rowList}" th:value="${row}" th:text="${row}"></option>
-                </select>
-            </div>
-            <p>------------------------</p>
-            <div class="mb-3 row" >
-                <label for="placeNumber"><b>Место</b></label>
-                <select class="form-control" id="placeNumber" name="placeNumber" style="max-width:10%; ">
-                    <option th:each="place : ${hall.placeList}" th:value="${place}" th:text="${place}"></option>
-                </select>
-            </div>
-            <p>------------------------</p>
-            <div class="row" >
-                <div class="col-6"><button class="btn btn-primary w-50" type="submit">Купить</button></div>
-            </div>
-            <br>
-            <div class="row" >
-                <div class="col-6"><a class="btn btn-danger w-50" th:href="@{/sessions}">Отмена</a></div>
-            </div>
-        </form>
+        </div>
     </div>
     <footer th:insert="blocks/footer :: footer"></footer>
 </body>
