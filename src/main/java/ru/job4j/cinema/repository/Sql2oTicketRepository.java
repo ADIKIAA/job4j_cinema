@@ -33,8 +33,8 @@ public class Sql2oTicketRepository implements TicketRepository {
             return Optional.of(ticket);
         } catch (Exception e) {
             e.printStackTrace();
-            return Optional.empty();
         }
+        return Optional.empty();
     }
 
     @Override
